@@ -1,0 +1,15 @@
+services:
+  - type: worker
+    name: btc320-password-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash render-build.sh && python main.py
+    envVars:
+      - key: BOT_TOKEN
+        value: your_bot_token_here
+      - key: CHAT_ID
+        value: your_chat_id_here
+      - key: USERNAME
+        value: your_site_username_here
+      - key: PASSWORD
+        value: your_site_password_here
