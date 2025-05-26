@@ -7,6 +7,8 @@ import chromedriver_autoinstaller
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
@@ -31,8 +33,9 @@ def start_driver():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.binary_location = "/usr/bin/google-chrome"
-    return webdriver.Chrome(options=chrome_options)
+    chrome_options.binary_location = "/opt/google/chrome/google-chrome"
+    service = Service(ChromeDriverManager().install())
+    return webdriver.Chrome(service=service, options=chrome_options)
 
 def main():
     driver = start_driver()
@@ -78,7 +81,6 @@ def main():
                 send_log("🧪 Tried 50 passwords:\n" + "\n".join(batch))
                 batch.clear()
 
-        # Confirm 100x
         for i in range(100):
             try:
                 input_box = driver.find_element(By.XPATH, '//*[@id="app"]/uni-app/uni-page/uni-page-wrapper/uni-page-body/uni-view/uni-view[3]/uni-view[9]/uni-view/uni-view/uni-input/div/input')
